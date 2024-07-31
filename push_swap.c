@@ -109,7 +109,7 @@ long int *allocate_and_fill_tab(char **argv, int argc, long int *countA, char **
 	
     if (argc == 2)
     {
-        *countA = ft_countA_number(argv[1], ' ');
+        *countA = ft_count_number(argv[1], ' ');
         *tab = ft_split(argv[1], ' ');
     }
     else
@@ -158,7 +158,7 @@ long int check_arg(int argc, char **argv)
 }
 
 
-int main(int argc, char **argv)
+/*int main(int argc, char **argv)
 {
 	if (argc > 1)
     {
@@ -166,14 +166,6 @@ int main(int argc, char **argv)
             ft_printf("ERROR\n");
     }
 	return (0);
-}
-/*int tri_small(long int *tabA, int countA)
-{
-	if (countA == 2)
-		tri_2(tabA);
-	if (countA == 3)
-		tri_3(tabA);
-	return (1);
 }*/
 
 int tri_2(long int *tab)
@@ -183,32 +175,24 @@ int tri_2(long int *tab)
 	return (1);
 }
 
-int tri_3 (long int *tab, int countA)
+int tri_3(long int *tabA, int countA)
 {
-	if (tab[1] > tab[2] && tab[2] > tab[0])
+	if (tabA[1] > tabA[2] && tabA[2] > tabA[0])
 	{
-		sa(tab);
-		ra(tab, countA);
+		sa(tabA);
+		ra(tabA, countA);
 	}
-	if (tab[2] > tab[0] && tab[0] > tab[1])
-		sa(tab);
-	if (tab[1] > tab[0] && tab[0] > tab[2])
-		rra(tab, countA);
-	if (tab[0] > tab[2] && tab[2] > tab[1])
-		ra(tab, countA);
-	if (tab[0] > tab[1] && tab[1] > tab[2])
+	if (tabA[2] > tabA[0] && tabA[0] > tabA[1])
+		sa(tabA);
+	if (tabA[1] > tabA[0] && tabA[0] > tabA[2])
+		rra(tabA, countA);
+	if (tabA[0] > tabA[2] && tabA[2] > tabA[1])
+		ra(tabA, countA);
+	if (tabA[0] > tabA[1] && tabA[1] > tabA[2])
 	{
-		sa(tab);
-		rra(tab, countA);
+		sa(tabA);
+		rra(tabA, countA);
 	}
-	return (1);
-}
-int tri(long int *tab, int countA)
-{
-	if (countA == 2)
-		tri_2(tab);
-	if (countA == 3)
-		tri_3(tab, countA);
 	return (1);
 }
 
@@ -255,36 +239,121 @@ void rra(long int *tabA, int countA)
 	tabA[0] = last_element;
 	ft_printf("rra\n");
 }
-void pb(long int *tabA, long int *tabB, int countA, int countB)
-{
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
-}
-
-
-//valgrind --leak-check=full --track-origins=yes ./push_swap 12 13 1 2 5 64 15
-
-
-/*typedef struct Node {
+typedef struct Node {
     int data;
 	struct Node* next;
 } Node;
 
+typedef struct Liste Liste;
+struct Liste
+{
+    Node *premier;
+};
+
+// Prototypes des fonctions
+
 Node *createNode(int data);
+void printList(Liste *liste);
+void appendNode(Liste *liste, int data);
+Liste *initialisation();
+void freeList(Liste *liste);
+Liste *fill_List(long int *tab, int countA);
+
+void freeList(Liste *liste)
+{
+	Node *current = liste->premier;
+	Node *nextNode;
+	while (current)
+	{
+		nextNode = current->next;
+        free(current);
+        current = nextNode;
+	}
+	free(liste);
+}
+
+int tri(long int *tab, int countA)
+{
+	if (countA == 2)
+		tri_2(tab);
+	else if (countA == 3)
+		tri_3(tab, countA);
+	else if (countA > 3)
+	{
+		Liste *liste = fill_List(tab, countA);
+		printList(liste);
+		freeList(liste);
+	}
+	return (1);
+}
+Liste *initialisation()
+{
+	Liste *liste = malloc(sizeof(*liste));
+	if (liste == NULL)
+		exit(EXIT_FAILURE);
+	liste ->premier = NULL;
+	return (liste);
+}
 
 Node *createNode(int data)
 {
-	Node *New;
-	New = malloc(sizeof(Node));
+	Node *New = malloc(sizeof(Node));
+	if (New == NULL)
+	{
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }
 	New -> data = data;
 	New -> next = NULL;
-	printf("%d\n", New->data);
 	return (New);
 }
-
-int main()
+void appendNode(Liste *liste, int data)
 {
-	Node *node1;
-	node1 = createNode(0);
-	printf("%d", node1->data);
-	free (node1);
-}*/
+	Node *newNode = createNode(data);
+	if (liste -> premier == NULL)
+		liste -> premier = newNode;
+	else
+	{
+		Node *current = liste ->premier;
+		while (current -> next)
+			current = current -> next;
+		current->next = newNode;
+	}
+}
+Liste *fill_List(long int *tab, int countA)
+{
+	int i = 0;
+	Liste *liste = initialisation();
+	while (i < countA)
+	{
+		appendNode(liste, (int)tab[i]);
+		i++;
+	}
+	return (liste);
+}
+void printList(Liste *liste)
+{
+    Node *current = liste -> premier;
+    while (current != NULL)
+	{
+        printf("%d -> ", current->data);
+        current = current->next;
+    }
+    printf("NULL\n");
+}
+
+int main(int argc, char **argv)
+{
+	if (argc > 1)
+    {
+        if (check_arg(argc, argv) == -1)
+            ft_printf("ERROR\n");
+    }
+}
