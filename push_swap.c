@@ -32,27 +32,27 @@ int	check_only_digit_and_minus_valid(char *str)
 	return (1);
 
 }
-long int check_duplicate_number_and_max_min_int(long int *tab1, long int count)
+long int check_duplicate_number_and_max_min_int(long int *tabA, long int countA)
 {
 	int	i;
 	int j;
 
 	i = 0;
-	while (i < count)
+	while (i < countA)
 	{
-		if (tab1[i] == -0)
-			tab1[i] = 0;
+		if (tabA[i] == -0)
+			tabA[i] = 0;
 		i++;	
 	}
 	i = 0;
-	while (i < count)
+	while (i < countA)
 	{
-		if (tab1[i] > 2147483647 || tab1[i] < -2147483648)
+		if (tabA[i] > 2147483647 || tabA[i] < -2147483648)
 			return (-1);
 		j = i +1;
-		while (j < count)
+		while (j < countA)
 		{
-			if (tab1[i] == tab1[j])
+			if (tabA[i] == tabA[j])
 				return (-1);
 			j++;
 		}
@@ -60,21 +60,21 @@ long int check_duplicate_number_and_max_min_int(long int *tab1, long int count)
 	}
 	return (1);
 }
-long int *malloc_tab3(char **tab, long int count)
+long int *malloc_tab3(char **tab, long int countA)
 {
 	long int i;
-	long int *tab1;
+	long int *tabA;
 
-	tab1 = malloc(sizeof(long int) * (count));
-	if (!tab1)
+	tabA = malloc(sizeof(long int) * (countA));
+	if (!tabA)
 		return (0);
 	i = 0;
-	while (i < count)
+	while (i < countA)
 	{
-		tab1[i] = ft_atol(tab[i]);
+		tabA[i] = ft_atol(tab[i]);
 		i++;
 	}
-	return (tab1);
+	return (tabA);
 }
 void free_tab(char **tab)  
 {
@@ -89,7 +89,7 @@ void free_tab(char **tab)
 	free(tab);
 }
 
-int validate_args(int argc, char **argv)
+int validate_arg(char **argv)
 {
 	int i;
 	
@@ -102,53 +102,61 @@ int validate_args(int argc, char **argv)
 	}
 	return (1);
 }
-long int *allocate_and_fill_tab(char **argv, int argc, long int *count, char ***tab)
+long int *allocate_and_fill_tab(char **argv, int argc, long int *countA, char ***tab)
 {
+	long int i;
+    long int *tabA;
+	
     if (argc == 2)
     {
-        *count = ft_count_number(argv[1], ' ');
+        *countA = ft_countA_number(argv[1], ' ');
         *tab = ft_split(argv[1], ' ');
     }
     else
     {
-        *count = argc - 1;
+        *countA = argc - 1;
         *tab = &argv[1];
     }
-    return malloc_tab3(*tab, *count);
+	tabA = malloc(sizeof(long int) * (*countA));
+	if (!tabA)
+		return (0);
+	i = 0;
+	while (i < *countA)
+	{
+		tabA[i] = ft_atol((*tab)[i]);
+		i++;
+	}
+	return (tabA);
 }
-
-
 long int check_arg(int argc, char **argv)
 {
-	long int	count;
-	long int	*tab1;
+	long int	countA;
+	long int	*tabA;
 	char **tab;
-	int i;
-	i = 1;
 
-	if (validate_arg(argc, argv) == -1)
+	if (validate_arg(argv) == -1)
 		return (-1);
-	
-	tab1 = malloc_tab3(tab, count);
-	if (!tab1)
+	tabA = allocate_and_fill_tab(argv, argc, &countA, &tab);
+	if (!tabA)
 	{
 		if (argc == 2)
 			free_tab(tab);
 		return (-1);
 	}
-	if (check_duplicate_number_and_max_min_int(tab1, count) == -1)
+	if (check_duplicate_number_and_max_min_int(tabA, countA) == -1)
 	{
-		free(tab1);
+		free(tabA);
 		if (argc == 2)
 			free_tab(tab);
 		return (-1);
 	}
-	tri_small(tab1, count);
-	free(tab1);
+	tri(tabA, countA);
+	free(tabA);
 	if (argc == 2)
 		free_tab(tab);
 	return (1);
 }
+
 
 int main(int argc, char **argv)
 {
@@ -159,44 +167,124 @@ int main(int argc, char **argv)
     }
 	return (0);
 }
-int tri_small(long int *tab1, int count)
+/*int tri_small(long int *tabA, int countA)
 {
-	if (count == 2)
-		tri_2(tab1);
-	if (count == 3)
-		tri_3(tab1);
+	if (countA == 2)
+		tri_2(tabA);
+	if (countA == 3)
+		tri_3(tabA);
+	return (1);
+}*/
+
+int tri_2(long int *tab)
+{
+	if (tab[0] > tab[1])
+		sa(tab);
 	return (1);
 }
 
-int tri_2(long int *tab1)
-{
-	if (tab1[0] > tab1[1])
-		ft_printf ("sa\n");
-	return (1);
-}
-
-int tri_3 (long int *tab)
+int tri_3 (long int *tab, int countA)
 {
 	if (tab[1] > tab[2] && tab[2] > tab[0])
 	{
-		ft_printf("sa\n");
-		ft_printf("ra\n");
+		sa(tab);
+		ra(tab, countA);
 	}
 	if (tab[2] > tab[0] && tab[0] > tab[1])
-		ft_printf("sa");
+		sa(tab);
 	if (tab[1] > tab[0] && tab[0] > tab[2])
-		ft_printf("rra");
+		rra(tab, countA);
 	if (tab[0] > tab[2] && tab[2] > tab[1])
-		ft_printf("ra");
+		ra(tab, countA);
 	if (tab[0] > tab[1] && tab[1] > tab[2])
 	{
-		ft_printf("sa\n");
-		ft_printf("rra\n");
+		sa(tab);
+		rra(tab, countA);
 	}
 	return (1);
 }
+int tri(long int *tab, int countA)
+{
+	if (countA == 2)
+		tri_2(tab);
+	if (countA == 3)
+		tri_3(tab, countA);
+	return (1);
+}
 
+void sa(long int *tabA)
+{
+	int temp;
 
+	temp = tabA[0];
+	tabA[0] = tabA[1];
+	tabA[1] = temp;
+	ft_printf("sa\n");
+}
+void ra(long int *tabA, int countA)
+{
+	int i;
+	i = 0;
+	int first_element;
+
+	first_element = tabA[0];
+	i = 0;
+	while (i < countA -1)
+	{
+		tabA[i] = tabA[i + 1];
+		//ft_printf("%d\n", tabA[i]);
+		i++;
+	}
+	tabA[countA - 1] = first_element;
+	//ft_printf("%d\n", tabA[i]);
+	ft_printf("ra\n");
+}
+
+void rra(long int *tabA, int countA)
+{
+	int i;
+	int last_element;
+
+	i = countA -1;
+	last_element = tabA[countA - 1];
+	while ( i > 0)
+	{
+		tabA[i] = tabA[i - 1];
+		i--;
+	}
+	tabA[0] = last_element;
+	ft_printf("rra\n");
+}
+void pb(long int *tabA, long int *tabB, int countA, int countB)
+{
+
+}
 
 
 //valgrind --leak-check=full --track-origins=yes ./push_swap 12 13 1 2 5 64 15
+
+
+/*typedef struct Node {
+    int data;
+	struct Node* next;
+} Node;
+
+Node *createNode(int data);
+
+Node *createNode(int data)
+{
+	Node *New;
+	New = malloc(sizeof(Node));
+	New -> data = data;
+	New -> next = NULL;
+	printf("%d\n", New->data);
+	return (New);
+}
+
+int main()
+{
+	Node *node1;
+	node1 = createNode(0);
+	printf("%d", node1->data);
+	free (node1);
+}*/

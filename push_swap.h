@@ -19,6 +19,7 @@
 #include "ft_printf.h"
 #include "libft.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 int     check_only_digit_and_minus_valid(char *str);
 
@@ -36,9 +37,16 @@ long int	    check_max_min_int(long int *tab1);
 
 int tri_small (long int *tab1, int count);
 int tri_2 (long int *tab);
-int tri_3 (long int *tab);
+int tri_3 (long int *tab, int count);
 
 long int *malloc_tab3(char **tab, long int count);
 long int check_arg(int argc, char **argv);
+
+int validate_arg(char **argv);
+
+void sa(long int *tab1);
+void ra(long int *tab1, int count);
+void rra(long int *tab1, int count);
+int tri(long int *tab1, int count);
 
 #endif
