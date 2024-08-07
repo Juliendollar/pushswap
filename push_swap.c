@@ -196,6 +196,20 @@ int tri_3(long int *tabA, int countA)
 	return (1);
 }
 
+int tri_5(long int *tabA, int countA)
+{
+	long int *tabB;
+	int countB;
+
+	countB = 0;
+	tabB = malloc(sizeof(long int) * countA);
+	if (!tabB)
+		return (0);
+	pb(tabA, &countA, tabB, &countB);
+	free (tabB);
+	return (1);
+}
+
 void sa(long int *tabA)
 {
 	int temp;
@@ -216,11 +230,9 @@ void ra(long int *tabA, int countA)
 	while (i < countA -1)
 	{
 		tabA[i] = tabA[i + 1];
-		//ft_printf("%d\n", tabA[i]);
 		i++;
 	}
 	tabA[countA - 1] = first_element;
-	//ft_printf("%d\n", tabA[i]);
 	ft_printf("ra\n");
 }
 
@@ -239,32 +251,34 @@ void rra(long int *tabA, int countA)
 	tabA[0] = last_element;
 	ft_printf("rra\n");
 }
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
 
-typedef struct Node {
-    int data;
-	struct Node* next;
-} Node;
-
-typedef struct Liste Liste;
-struct Liste
+void pb(long int *tabA, int *countA, long int *tabB, int *countB)
 {
-    Node *premier;
-};
+	int i;
+	
+	i = 0;
+	if (*countB == 0)
+	{
+		tabB[0] = tabA[0];
+		ft_printf("tabB: %d\n", tabB[i]);
+		while (i < *countA -1)
+		{
+			tabA[i] = tabA[i + 1];
+			ft_printf("tabA: %d\n", tabA[i], i);
+			i++;
+		}
+		(*countA)--;
+		(*countB)++;
+	}
+}
 
-// Prototypes des fonctions
 
-Node *createNode(int data);
-void printList(Liste *liste);
-void appendNode(Liste *liste, int data);
-Liste *initialisation();
-void freeList(Liste *liste);
-Liste *fill_List(long int *tab, int countA);
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
 void freeList(Liste *liste)
 {
@@ -278,6 +292,23 @@ void freeList(Liste *liste)
 	}
 	free(liste);
 }
+int	list_sorted(Liste *liste)
+{
+	Node *current;
+
+	current = liste -> premier;
+	while (current->next)
+	{
+		if (current -> data > current -> next->data)
+		{
+			ft_printf("liste non trie\n");
+			return (-1);
+		}
+		current = current ->next;
+	}
+	ft_printf("liste trie\n");
+	return (1);	
+}
 
 int tri(long int *tab, int countA)
 {
@@ -285,14 +316,47 @@ int tri(long int *tab, int countA)
 		tri_2(tab);
 	else if (countA == 3)
 		tri_3(tab, countA);
+	else if (countA == 5)
+		tri_5(tab, countA);
 	else if (countA > 3)
 	{
 		Liste *liste = fill_List(tab, countA);
+		if (list_sorted(liste) == 1)
+		{
+			return (1);
+		}
+		//algo_tri(liste);         //on va creer lalgo de tri et il va check si liste is sorted
 		printList(liste);
 		freeList(liste);
 	}
 	return (1);
 }
+
+/*int algo_tri(Liste *liste)
+{
+	Liste *listeB;
+
+	pb(liste, listeB);
+	if (list_sorted(liste) == 1)
+	{
+		//remettre ce quon vient de push b sur sa cible dans la stack a ; le chiffre le plus grand le plus proche de lui
+		while (list_sorted(liste) == -1)
+		//		si le plus petit est dans la partie haute des index on fait un rotate + list_sorted? si non on refait un rotate + list_sorted?
+		//		si le plus petit est dans la partie basse des index on fait un reverse rotate + list_sorted? si non on refait un reverse rotate + list_sorted?		
+	}
+	pb(liste, listeB);
+	if (list_sorted(liste) == 1)
+	{
+		//compter le nombre de coup pour mettre chacun des 2 nbrs de b sur sa cible dans la stack a ; le chiffre le plus grand le plus proche de lui,
+		//	prendre celui qui prend le moins de coups a ranger sur a. puis ranger l autre ensuite.
+		while(list_sorted(liste) == -1)
+		{
+			//
+		}
+	}
+}*/
+
+
 Liste *initialisation()
 {
 	Liste *liste = malloc(sizeof(*liste));

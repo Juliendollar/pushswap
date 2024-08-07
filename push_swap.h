@@ -21,6 +21,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef struct Node {
+    int data;
+	struct Node* next;
+} Node;
+
+typedef struct Liste Liste;
+struct Liste
+{
+    Node *premier;
+};
+
 int     check_only_digit_and_minus_valid(char *str);
 
 long int *malloc_tab1(char **tab, long int countA_nombre_dans_arg_guillemets);
@@ -55,5 +66,8 @@ void appendNode(Liste *liste, int data);
 Liste *initialisation();
 void freeList(Liste *liste);
 Liste *fill_List(long int *tab, int countA);
+
+int tri_5(long int *tabA, int countA);
+void pb(long int *tabA, int *countA, long int *tabB, int *countB);
 
 #endif
