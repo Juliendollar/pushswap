@@ -69,5 +69,12 @@ Liste *fill_List(long int *tab, int countA);
 
 int tri_5(long int *tabA, int countA);
 void pb(long int *tabA, int *countA, long int *tabB, int *countB);
+int list_sorted_tab(long int *tabA, int countA, int countB);
+
+void sort_tab(long int *tab_temp, int countA);
+void list_simplifier_valeurs(int long *tabA, int countA);
+
+int push_cible_A(long int *tabA, long int *tabB, int countA);
+int median(long int *tabA, long int i, int countA);
 
 #endif

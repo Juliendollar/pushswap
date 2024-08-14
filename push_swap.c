@@ -150,23 +150,13 @@ long int check_arg(int argc, char **argv)
 			free_tab(tab);
 		return (-1);
 	}
+	list_simplifier_valeurs(tabA, countA);
 	tri(tabA, countA);
 	free(tabA);
 	if (argc == 2)
 		free_tab(tab);
 	return (1);
 }
-
-
-/*int main(int argc, char **argv)
-{
-	if (argc > 1)
-    {
-        if (check_arg(argc, argv) == -1)
-            ft_printf("ERROR\n");
-    }
-	return (0);
-}*/
 
 int tri_2(long int *tab)
 {
@@ -205,9 +195,151 @@ int tri_5(long int *tabA, int countA)
 	tabB = malloc(sizeof(long int) * countA);
 	if (!tabB)
 		return (0);
+	if (list_sorted_tab(tabA, countA, countB) == 1)
+	{
+		free(tabB);
+		return(1);
+	}
 	pb(tabA, &countA, tabB, &countB);
+	if (list_sorted_tab(tabA, countA, countB) == 1)
+	{
+		push_cible_A(tabA, tabB, countA);
+	}
 	free (tabB);
 	return (1);
+}
+
+int push_cible_A(long int *tabA, long int *tabB, int countA)
+{
+	int i;
+	int cible_trouvee;
+
+	cible_trouvee = 0;
+	i = 0;
+	while (i < countA)
+	{
+		if (tabB[0] + 1 == tabA[i])
+		{
+			median(tabA, i, countA);
+			cible_trouvee = 1;
+			break;
+		}
+		i++;
+	}
+	if (!cible_trouvee)
+	{
+		median(tabA, countA - 1, countA);
+	}
+	return (1);
+}
+
+int median(long int *tabA, long int i, int countA)
+{
+	(void)tabA;
+	if (i > countA / 2)
+	{
+		ft_printf("on fait rra jusqua ce que i = 0, i vaut actuellement %i", i);
+	}
+	else
+		ft_printf("on fait ra jusqua ce que i = 0, i vaut actuellement %i", i);
+	return (1);
+}
+int tri(long int *tab, int countA)
+{
+	if (countA == 2)
+		tri_2(tab);
+	else if (countA == 3)
+		tri_3(tab, countA);
+	else if (countA > 3)
+		tri_5(tab, countA);
+	/*else if (countA > 3)
+	{
+		Liste *liste = fill_List(tab, countA);
+		if (list_sorted(liste) == 1)
+		{
+			return (1);
+		}
+		//algo_tri(liste);         //on va creer lalgo de tri et il va check si liste is sorted
+		printList(liste);
+		freeList(liste);
+	}*/
+	return (1);
+}
+int list_sorted_tab(long int *tabA, int countA, int countB)
+{
+	int i;
+
+	i = 0;
+	while (i < countA -1)
+	{
+		if(tabA[i] < tabA[i + 1])
+			i++;
+		else
+			return (-1);
+	}
+	if (countB == 0)
+		{
+			ft_printf("liste trie et stack b vide\n");
+			return (1);
+		}
+	else
+		{
+			ft_printf("liste trie et stack b non vide\n");
+			return (1);
+		}
+}
+void list_simplifier_valeurs(int long *tabA, int countA)
+{
+	int i;
+	int j;
+
+	long int tab_temp[countA];
+	i = 0;
+	while (i < countA)
+	{
+		tab_temp[i] = tabA[i];
+		i++;		
+	}
+	sort_tab(tab_temp, countA);
+	i = 0;
+	while (i  < countA)
+	{
+		j = 0;
+		while (j < countA)
+		{
+			if (tabA[i] == tab_temp[j])
+			{
+				tabA[i] = j;
+				break;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+void sort_tab(long int *tab_temp, int countA)
+{
+	int i;
+	int j;
+	long int temp;
+
+	i = 0;
+	while (i < countA -1)
+	{
+		j = 0;
+		while (j < countA - 1)
+		{
+			if (tab_temp[j] > tab_temp[j + 1])
+			{
+				temp = tab_temp[j];
+				tab_temp[j] = tab_temp[j + 1];
+				tab_temp[j + 1] = temp;
+			}
+			j++;
+		}
+		i++;
+	}
 }
 
 void sa(long int *tabA)
@@ -255,21 +387,42 @@ void rra(long int *tabA, int countA)
 void pb(long int *tabA, int *countA, long int *tabB, int *countB)
 {
 	int i;
-	
+	int j;
+
 	i = 0;
 	if (*countB == 0)
 	{
 		tabB[0] = tabA[0];
-		ft_printf("tabB: %d\n", tabB[i]);
+		ft_printf("tabB: %d\n\n", tabB[i]);
 		while (i < *countA -1)
 		{
 			tabA[i] = tabA[i + 1];
-			ft_printf("tabA: %d\n", tabA[i], i);
+			ft_printf("tabA: %d\n", tabA[i]);
 			i++;
 		}
 		(*countA)--;
 		(*countB)++;
 	}
+	else
+	{
+		j = *countB;
+		while (j)
+		{
+			tabB[j] = tabB[j - 1];
+			ft_printf("tabB: %d\n", tabB[j]);
+			j--;
+		}
+		tabB[0] = tabA[0];
+		while (i < *countA -1)
+		{
+			tabA[i] = tabA[i + 1];
+			ft_printf("tabA: %d\n", tabA[i]);
+			i++;
+		}
+		(*countA)--;
+		(*countB)++;
+	}
+	//ft_printf("pb");
 }
 
 
@@ -280,7 +433,7 @@ void pb(long int *tabA, int *countA, long int *tabB, int *countB)
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
-void freeList(Liste *liste)
+/*void freeList(Liste *liste)
 {
 	Node *current = liste->premier;
 	Node *nextNode;
@@ -291,8 +444,8 @@ void freeList(Liste *liste)
         current = nextNode;
 	}
 	free(liste);
-}
-int	list_sorted(Liste *liste)
+}*/
+/*int	list_sorted(Liste *liste)
 {
 	Node *current;
 
@@ -308,31 +461,10 @@ int	list_sorted(Liste *liste)
 	}
 	ft_printf("liste trie\n");
 	return (1);	
-}
+}*/
 
-int tri(long int *tab, int countA)
-{
-	if (countA == 2)
-		tri_2(tab);
-	else if (countA == 3)
-		tri_3(tab, countA);
-	else if (countA == 5)
-		tri_5(tab, countA);
-	else if (countA > 3)
-	{
-		Liste *liste = fill_List(tab, countA);
-		if (list_sorted(liste) == 1)
-		{
-			return (1);
-		}
-		//algo_tri(liste);         //on va creer lalgo de tri et il va check si liste is sorted
-		printList(liste);
-		freeList(liste);
-	}
-	return (1);
-}
 
-/*int algo_tri(Liste *liste)
+/*int algo_tri(Liste *liste)                                    // ALGO TRI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 {
 	Liste *listeB;
 
@@ -357,7 +489,7 @@ int tri(long int *tab, int countA)
 }*/
 
 
-Liste *initialisation()
+/*Liste *initialisation()
 {
 	Liste *liste = malloc(sizeof(*liste));
 	if (liste == NULL)
@@ -411,10 +543,12 @@ void printList(Liste *liste)
         current = current->next;
     }
     printf("NULL\n");
-}
+}*/
 
 int main(int argc, char **argv)
 {
+	(void)argv;
+	
 	if (argc > 1)
     {
         if (check_arg(argc, argv) == -1)
