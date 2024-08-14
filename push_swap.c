@@ -204,9 +204,31 @@ int tri_5(long int *tabA, int countA)
 	if (list_sorted_tab(tabA, countA, countB) == 1)
 	{
 		push_cible_A(tabA, tabB, countA);
+		pa(tabA, &countA, tabB, &countB);
+		ordonner_liste(tabA, countA);
+		free(tabB);
+		return (1);
 	}
+	pb(tabA, &countA, tabB, &countB);
+	tri_3(tabA, countA);
+	push_cible_A(tabA, tabB, countA);
+	pa(tabA, &countA, tabB, &countB);
+	push_cible_A(tabA, tabB, countA);
+	pa(tabA, &countA, tabB, &countB);
+	ordonner_liste(tabA, countA);
 	free (tabB);
 	return (1);
+}
+void ordonner_liste(long int *tabA, int countA)
+{
+	int i;
+	
+	i = 0;
+	while (tabA[i] != 0)
+	{
+		i++;
+	}
+	median(tabA, i, countA);
 }
 
 int push_cible_A(long int *tabA, long int *tabB, int countA)
@@ -228,22 +250,38 @@ int push_cible_A(long int *tabA, long int *tabB, int countA)
 	}
 	if (!cible_trouvee)
 	{
-		median(tabA, countA - 1, countA);
+		while (i < countA)
+		{
+			if (tabB[0] == 0)
+				median(tabA, i, countA);
+			i++;
+		}
 	}
 	return (1);
 }
 
 int median(long int *tabA, long int i, int countA)
-{
+{                                                                //on fait remonter la cible en haut de la stackA
 	(void)tabA;
 	if (i > countA / 2)
 	{
-		ft_printf("on fait rra jusqua ce que i = 0, i vaut actuellement %i", i);
+		while (i < countA)
+		{
+			rra(tabA, countA);
+			i++;
+		}
 	}
 	else
-		ft_printf("on fait ra jusqua ce que i = 0, i vaut actuellement %i", i);
+	{
+		while (i > 0)
+		{
+			ra(tabA, countA);
+			i--;
+		}
+	}
 	return (1);
 }
+
 int tri(long int *tab, int countA)
 {
 	if (countA == 2)
@@ -269,6 +307,7 @@ int list_sorted_tab(long int *tabA, int countA, int countB)
 {
 	int i;
 
+	(void)countB;
 	i = 0;
 	while (i < countA -1)
 	{
@@ -277,7 +316,7 @@ int list_sorted_tab(long int *tabA, int countA, int countB)
 		else
 			return (-1);
 	}
-	if (countB == 0)
+	/*if (countB == 0)
 		{
 			ft_printf("liste trie et stack b vide\n");
 			return (1);
@@ -286,7 +325,8 @@ int list_sorted_tab(long int *tabA, int countA, int countB)
 		{
 			ft_printf("liste trie et stack b non vide\n");
 			return (1);
-		}
+		}*/
+	return (1);
 }
 void list_simplifier_valeurs(int long *tabA, int countA)
 {
@@ -393,11 +433,11 @@ void pb(long int *tabA, int *countA, long int *tabB, int *countB)
 	if (*countB == 0)
 	{
 		tabB[0] = tabA[0];
-		ft_printf("tabB: %d\n\n", tabB[i]);
+		//ft_printf("tabB: %d\n\n", tabB[i]);
 		while (i < *countA -1)
 		{
 			tabA[i] = tabA[i + 1];
-			ft_printf("tabA: %d\n", tabA[i]);
+			//ft_printf("tabA: %d\n", tabA[i]);
 			i++;
 		}
 		(*countA)--;
@@ -409,22 +449,50 @@ void pb(long int *tabA, int *countA, long int *tabB, int *countB)
 		while (j)
 		{
 			tabB[j] = tabB[j - 1];
-			ft_printf("tabB: %d\n", tabB[j]);
+			//ft_printf("tabB: %d\n", tabB[j]);
 			j--;
 		}
 		tabB[0] = tabA[0];
 		while (i < *countA -1)
 		{
 			tabA[i] = tabA[i + 1];
-			ft_printf("tabA: %d\n", tabA[i]);
+			//ft_printf("tabA: %d\n", tabA[i]);
 			i++;
 		}
 		(*countA)--;
 		(*countB)++;
 	}
-	//ft_printf("pb");
+	ft_printf("pb\n");
 }
 
+void pa(long int *tabA, int *countA, long int *tabB, int *countB)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = *countA;
+	while (j)
+	{
+		tabA[j] = tabA[j - 1];
+		//ft_printf("tabA: %d\n", tabA[j]);
+		j--;
+	}
+	tabA[0] = tabB[0];
+	while (i < *countB - 1)
+	{
+		tabB[i] = tabB[i +1];
+		//ft_printf("tabB: %d\n", tabB[i]);
+		i++;
+	}
+	(*countA)++;
+	(*countB)--;
+	ft_printf("pa\n");
+	/*for (int x = 0; x < *countA ; x++)
+	{
+		ft_printf("tabA[%d] = %d\n", x, tabA[x]);
+	}*/
+}
 
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////

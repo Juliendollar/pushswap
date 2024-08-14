@@ -77,4 +77,7 @@ void list_simplifier_valeurs(int long *tabA, int countA);
 int push_cible_A(long int *tabA, long int *tabB, int countA);
 int median(long int *tabA, long int i, int countA);
 
+void pa(long int *tabA, int *countA, long int *tabB, int *countB);
+void ordonner_liste(long int *tabA, int countA);
+
 #endif
