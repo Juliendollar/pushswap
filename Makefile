@@ -11,7 +11,7 @@ CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address -I$(LIBFT_INC) -I$(PRINTF_I
 LDFLAGS = -L$(LIBFT_DIR) -lft -L$(PRINTF_DIR) -lftprintf
 
 
-SRC = push_swap.c
+SRC = push_swap.c / instructions.c / instructions2.c */ instructions3.c
 OBJ = $(SRC:.c=.o)
 
 

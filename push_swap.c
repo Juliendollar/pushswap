@@ -60,7 +60,7 @@ long int check_duplicate_number_and_max_min_int(long int *tabA, long int countA)
 	}
 	return (1);
 }
-long int *malloc_tab3(char **tab, long int countA)
+long int *malloc_tab(char **tab, long int countA)
 {
 	long int i;
 	long int *tabA;
@@ -128,6 +128,7 @@ long int *allocate_and_fill_tab(char **argv, int argc, long int *countA, char **
 	}
 	return (tabA);
 }
+
 long int check_arg(int argc, char **argv)
 {
 	long int	countA;
@@ -209,13 +210,23 @@ int tri_5(long int *tabA, int countA)
 		free(tabB);
 		return (1);
 	}
-	pb(tabA, &countA, tabB, &countB);
-	tri_3(tabA, countA);
-	push_cible_A(tabA, tabB, countA);
-	pa(tabA, &countA, tabB, &countB);
-	push_cible_A(tabA, tabB, countA);
-	pa(tabA, &countA, tabB, &countB);
-	ordonner_liste(tabA, countA);
+	if (countA == 3)
+	{
+		tri_3(tabA, countA);
+		push_cible_A(tabA, tabB, countA);
+		pa(tabA, &countA, tabB, &countB);
+		ordonner_liste(tabA, countA);
+	}
+	else if (countA == 4)
+	{
+		pb(tabA, &countA, tabB, &countB);
+		tri_3(tabA, countA);
+		push_cible_A(tabA, tabB, countA);
+		pa(tabA, &countA, tabB, &countB);
+		push_cible_A(tabA, tabB, countA);
+		pa(tabA, &countA, tabB, &countB);
+		ordonner_liste(tabA, countA);
+	}
 	free (tabB);
 	return (1);
 }
@@ -290,17 +301,6 @@ int tri(long int *tab, int countA)
 		tri_3(tab, countA);
 	else if (countA > 3)
 		tri_5(tab, countA);
-	/*else if (countA > 3)
-	{
-		Liste *liste = fill_List(tab, countA);
-		if (list_sorted(liste) == 1)
-		{
-			return (1);
-		}
-		//algo_tri(liste);         //on va creer lalgo de tri et il va check si liste is sorted
-		printList(liste);
-		freeList(liste);
-	}*/
 	return (1);
 }
 int list_sorted_tab(long int *tabA, int countA, int countB)
@@ -316,16 +316,6 @@ int list_sorted_tab(long int *tabA, int countA, int countB)
 		else
 			return (-1);
 	}
-	/*if (countB == 0)
-		{
-			ft_printf("liste trie et stack b vide\n");
-			return (1);
-		}
-	else
-		{
-			ft_printf("liste trie et stack b non vide\n");
-			return (1);
-		}*/
 	return (1);
 }
 void list_simplifier_valeurs(int long *tabA, int countA)
@@ -381,237 +371,6 @@ void sort_tab(long int *tab_temp, int countA)
 		i++;
 	}
 }
-
-void sa(long int *tabA)
-{
-	int temp;
-
-	temp = tabA[0];
-	tabA[0] = tabA[1];
-	tabA[1] = temp;
-	ft_printf("sa\n");
-}
-void ra(long int *tabA, int countA)
-{
-	int i;
-	i = 0;
-	int first_element;
-
-	first_element = tabA[0];
-	i = 0;
-	while (i < countA -1)
-	{
-		tabA[i] = tabA[i + 1];
-		i++;
-	}
-	tabA[countA - 1] = first_element;
-	ft_printf("ra\n");
-}
-
-void rra(long int *tabA, int countA)
-{
-	int i;
-	int last_element;
-
-	i = countA -1;
-	last_element = tabA[countA - 1];
-	while ( i > 0)
-	{
-		tabA[i] = tabA[i - 1];
-		i--;
-	}
-	tabA[0] = last_element;
-	ft_printf("rra\n");
-}
-
-void pb(long int *tabA, int *countA, long int *tabB, int *countB)
-{
-	int i;
-	int j;
-
-	i = 0;
-	if (*countB == 0)
-	{
-		tabB[0] = tabA[0];
-		//ft_printf("tabB: %d\n\n", tabB[i]);
-		while (i < *countA -1)
-		{
-			tabA[i] = tabA[i + 1];
-			//ft_printf("tabA: %d\n", tabA[i]);
-			i++;
-		}
-		(*countA)--;
-		(*countB)++;
-	}
-	else
-	{
-		j = *countB;
-		while (j)
-		{
-			tabB[j] = tabB[j - 1];
-			//ft_printf("tabB: %d\n", tabB[j]);
-			j--;
-		}
-		tabB[0] = tabA[0];
-		while (i < *countA -1)
-		{
-			tabA[i] = tabA[i + 1];
-			//ft_printf("tabA: %d\n", tabA[i]);
-			i++;
-		}
-		(*countA)--;
-		(*countB)++;
-	}
-	ft_printf("pb\n");
-}
-
-void pa(long int *tabA, int *countA, long int *tabB, int *countB)
-{
-	int i;
-	int j;
-
-	i = 0;
-	j = *countA;
-	while (j)
-	{
-		tabA[j] = tabA[j - 1];
-		//ft_printf("tabA: %d\n", tabA[j]);
-		j--;
-	}
-	tabA[0] = tabB[0];
-	while (i < *countB - 1)
-	{
-		tabB[i] = tabB[i +1];
-		//ft_printf("tabB: %d\n", tabB[i]);
-		i++;
-	}
-	(*countA)++;
-	(*countB)--;
-	ft_printf("pa\n");
-	/*for (int x = 0; x < *countA ; x++)
-	{
-		ft_printf("tabA[%d] = %d\n", x, tabA[x]);
-	}*/
-}
-
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-
-/*void freeList(Liste *liste)
-{
-	Node *current = liste->premier;
-	Node *nextNode;
-	while (current)
-	{
-		nextNode = current->next;
-        free(current);
-        current = nextNode;
-	}
-	free(liste);
-}*/
-/*int	list_sorted(Liste *liste)
-{
-	Node *current;
-
-	current = liste -> premier;
-	while (current->next)
-	{
-		if (current -> data > current -> next->data)
-		{
-			ft_printf("liste non trie\n");
-			return (-1);
-		}
-		current = current ->next;
-	}
-	ft_printf("liste trie\n");
-	return (1);	
-}*/
-
-
-/*int algo_tri(Liste *liste)                                    // ALGO TRI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-{
-	Liste *listeB;
-
-	pb(liste, listeB);
-	if (list_sorted(liste) == 1)
-	{
-		//remettre ce quon vient de push b sur sa cible dans la stack a ; le chiffre le plus grand le plus proche de lui
-		while (list_sorted(liste) == -1)
-		//		si le plus petit est dans la partie haute des index on fait un rotate + list_sorted? si non on refait un rotate + list_sorted?
-		//		si le plus petit est dans la partie basse des index on fait un reverse rotate + list_sorted? si non on refait un reverse rotate + list_sorted?		
-	}
-	pb(liste, listeB);
-	if (list_sorted(liste) == 1)
-	{
-		//compter le nombre de coup pour mettre chacun des 2 nbrs de b sur sa cible dans la stack a ; le chiffre le plus grand le plus proche de lui,
-		//	prendre celui qui prend le moins de coups a ranger sur a. puis ranger l autre ensuite.
-		while(list_sorted(liste) == -1)
-		{
-			//
-		}
-	}
-}*/
-
-
-/*Liste *initialisation()
-{
-	Liste *liste = malloc(sizeof(*liste));
-	if (liste == NULL)
-		exit(EXIT_FAILURE);
-	liste ->premier = NULL;
-	return (liste);
-}
-
-Node *createNode(int data)
-{
-	Node *New = malloc(sizeof(Node));
-	if (New == NULL)
-	{
-        fprintf(stderr, "Memory allocation failed\n");
-        exit(EXIT_FAILURE);
-    }
-	New -> data = data;
-	New -> next = NULL;
-	return (New);
-}
-void appendNode(Liste *liste, int data)
-{
-	Node *newNode = createNode(data);
-	if (liste -> premier == NULL)
-		liste -> premier = newNode;
-	else
-	{
-		Node *current = liste ->premier;
-		while (current -> next)
-			current = current -> next;
-		current->next = newNode;
-	}
-}
-Liste *fill_List(long int *tab, int countA)
-{
-	int i = 0;
-	Liste *liste = initialisation();
-	while (i < countA)
-	{
-		appendNode(liste, (int)tab[i]);
-		i++;
-	}
-	return (liste);
-}
-void printList(Liste *liste)
-{
-    Node *current = liste -> premier;
-    while (current != NULL)
-	{
-        printf("%d -> ", current->data);
-        current = current->next;
-    }
-    printf("NULL\n");
-}*/
 
 int main(int argc, char **argv)
 {

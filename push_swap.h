@@ -21,37 +21,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Node {
-    int data;
-	struct Node* next;
-} Node;
-
-typedef struct Liste Liste;
-struct Liste
-{
-    Node *premier;
-};
-
 int     check_only_digit_and_minus_valid(char *str);
+long int check_duplicate_number_and_max_min_int(long int *tabA, long int countA);
 
-long int *malloc_tab1(char **tab, long int countA_nombre_dans_arg_guillemets);
-long int *malloc_tab_multiple_arg(char **argv, long int arc);
+long int *malloc_tab(char **tab, long int countA);
+void free_tab(char **tab);
+long int check_arg(int argc, char **argv);
 
-void free_tab1(char **tab);
-
-int	check_arg1(char *str, long int countA_arg);
-int check_arg2(char **argv, long int countA);
-
-long int     check_duplicate_number(long int *tab1, long int countA);
-long int	    check_max_min_int(long int *tab1);
-
-
-int tri_small (long int *tab1, int countA);
 int tri_2 (long int *tab);
 int tri_3 (long int *tab, int countA);
+int tri_5(long int *tabA, int countA);
 
-long int *malloc_tab3(char **tab, long int countA);
-long int check_arg(int argc, char **argv);
 
 int validate_arg(char **argv);
 
@@ -60,14 +40,6 @@ void ra(long int *tab1, int countA);
 void rra(long int *tab1, int countA);
 int tri(long int *tab1, int countA);
 
-Node *createNode(int data);
-void printList(Liste *liste);
-void appendNode(Liste *liste, int data);
-Liste *initialisation();
-void freeList(Liste *liste);
-Liste *fill_List(long int *tab, int countA);
-
-int tri_5(long int *tabA, int countA);
 void pb(long int *tabA, int *countA, long int *tabB, int *countB);
 int list_sorted_tab(long int *tabA, int countA, int countB);
 
@@ -79,5 +51,8 @@ int median(long int *tabA, long int i, int countA);
 
 void pa(long int *tabA, int *countA, long int *tabB, int *countB);
 void ordonner_liste(long int *tabA, int countA);
+void ss(long int *tabA, long int *tabB);
+void rr(long int *tabA, int countA, long int *tabB, int countB);
+void rrr(long int *tabA, int countA, long int *tabB, int countB);
 
 #endif
