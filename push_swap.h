@@ -23,22 +23,22 @@
 
 int     check_only_digit_and_minus_valid(char *str);
 long int check_duplicate_number_and_max_min_int(long int *tabA, long int countA);
+int validate_arg(char **argv);
 
-long int *malloc_tab(char **tab, long int countA);
-void free_tab(char **tab);
 long int check_arg(int argc, char **argv);
 
+long int *allocate_and_fill_tab(char **argv, int argc, long int *countA, char ***tab);
+void free_tab(char **tab);
+
+int tri(long int *tab1, int countA);
 int tri_2 (long int *tab);
 int tri_3 (long int *tab, int countA);
-int tri_5(long int *tabA, int countA);
+int tri_4_5(long int *tabA, int countA);
 
-
-int validate_arg(char **argv);
 
 void sa(long int *tab1);
 void ra(long int *tab1, int countA);
 void rra(long int *tab1, int countA);
-int tri(long int *tab1, int countA);
 
 void pb(long int *tabA, int *countA, long int *tabB, int *countB);
 int list_sorted_tab(long int *tabA, int countA, int countB);
