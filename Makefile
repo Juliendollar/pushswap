@@ -11,7 +11,7 @@ CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address -I$(LIBFT_INC) -I$(PRINTF_I
 LDFLAGS = -L$(LIBFT_DIR) -lft -L$(PRINTF_DIR) -lftprintf
 
 
-SRC = push_swap.c instructions.c instructions2.c instructions3.c check_arg.c fill_tab.c
+SRC = push_swap.c instructions.c instructions2.c instructions3.c check_arg.c fill_tab.c tri.c
 OBJ = $(SRC:.c=.o)
 
 
@@ -47,7 +47,6 @@ re: fclean all
 
 valgrind: $(NAME)
 	valgrind --leak-check=full --track-origins=yes ./$(NAME)
-
 
 .PHONY: all clean fclean re
 

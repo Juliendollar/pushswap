@@ -21,11 +21,11 @@ long int *allocate_and_fill_tab(char **argv, int argc, long int *countA, char **
     {
         *countA = ft_count_number(argv[1], ' ');
         *tab = ft_split(argv[1], ' ');
-    }
+	}
     else
     {
         *countA = argc - 1;
-        *tab = &argv[1];
+        *tab = &argv[1];           
     }
 	tabA = malloc(sizeof(long int) * (*countA));
 	if (!tabA)
@@ -51,4 +51,3 @@ void free_tab(char **tab)
 	}
 	free(tab);
 }
-

@@ -50,34 +50,20 @@ void pb(long int *tabA, int *countA, long int *tabB, int *countB)
 	int j;
 
 	i = 0;
-	if (*countB == 0)
+	j = *countB;
+	while (j)
 	{
-		tabB[0] = tabA[0];
-		while (i < *countA -1)
-		{
-			tabA[i] = tabA[i + 1];
-			i++;
-		}
-		(*countA)--;
-		(*countB)++;
+		tabB[j] = tabB[j - 1];	
+		j--;
 	}
-	else
+	tabB[0] = tabA[0];
+	while (i < *countA -1)
 	{
-		j = *countB;
-		while (j)
-		{
-			tabB[j] = tabB[j - 1];
-			j--;
-		}
-		tabB[0] = tabA[0];
-		while (i < *countA -1)
-		{
-			tabA[i] = tabA[i + 1];
-			i++;
-		}
-		(*countA)--;
-		(*countB)++;
+		tabA[i] = tabA[i + 1];
+		i++;
 	}
+	(*countA)--;
+	(*countB)++;
 	ft_printf("pb\n");
 }
 
