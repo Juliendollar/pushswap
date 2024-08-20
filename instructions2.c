@@ -41,7 +41,7 @@ void rb(long int *tabB, int countB)
 		i++;
 	}
 	tabB[countB - 1] = first_element;
-	ft_printf("rb");
+	ft_printf("rb\n");
 }
 
 void rr(long int *tabA, int countA, long int *tabB, int countB)

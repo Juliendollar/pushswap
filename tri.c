@@ -12,12 +12,24 @@
 
 #include "push_swap.h"
 
-int tri(long int *tab, int countA)
+int tri(long int *tabA, int countA)
 {
+	long int *tabB;
+	int countB;
+
 	if (countA == 2 || countA == 3)
-		tri_2_3(tab, countA);
-	else if (countA > 3)
-		tri_4_5(tab, countA);              // tri 4-5 et big
+		tri_2_3(tabA, countA);
+	countB = 0;
+	if (list_sorted_tab(tabA, countA, countB) == 1)
+		return (1);
+	tabB = malloc(sizeof(long int) * countA);
+	if (!tabB)
+		return (0);
+	pb(tabA, &countA, tabB, &countB);
+	{
+		tri_big(tabA, countA, tabB, countB);
+		return (free(tabB), 1);
+	}
 	return (1);
 }
 
@@ -25,7 +37,7 @@ int tri_2_3(long int *tabA, int countA)
 {
     if (countA == 2)
     {
-        if (tabA[0] > tabA[1])
+		if (tabA[0] > tabA[1])
 		sa(tabA);
     }
 	if (countA == 3)
@@ -50,96 +62,62 @@ int tri_2_3(long int *tabA, int countA)
 	return (1);
 }
 
-int tri_4_5(long int *tabA, int countA)
-{
-	long int *tabB;
-	int countB;
-
-	countB = 0;
-	if (list_sorted_tab(tabA, countA, countB) == 1)
-		return (1);
-	tabB = malloc(sizeof(long int) * countA);
-	if (!tabB)
-		return (0);
-	pb(tabA, &countA, tabB, &countB);
-	if (list_sorted_tab(tabA, countA, countB) == 1)
-	{
-		push_b_vers_cible_a(tabA, tabB, countA);
-		pa(tabA, &countA, tabB, &countB);
-		ordonner_liste(tabA, countA);
-		return (free(tabB), 1);
-	}
-	if (countA == 3)
-	{
-		tri_2_3(tabA, countA);
-		push_b_vers_cible_a(tabA, tabB, countA);
-		pa(tabA, &countA, tabB, &countB);
-		ordonner_liste(tabA, countA);
-		return (free (tabB), 1);
-	}
-	else if (countA == 4)
-	{
-		pb(tabA, &countA, tabB, &countB);
-		tri_2_3(tabA, countA);          // juque la c bon
-		push_b_vers_cible_a(tabA, tabB, countA);
-		/*for (int k = 0; k < countA; k++)
-				ft_printf("avant le PA tabA[%d] = %d\n", k, tabA[k]);
-			for (int h = 0; h < 2; h++)
-				ft_printf("avant le PA tabB[%d] = %d\n", h, tabB[h]);*/
-		pa(tabA, &countA, tabB, &countB);
-		/*for (int k = 0; k < countA; k++)
-			ft_printf("apres le PA tabA[%d] = %d\n", k, tabA[k]);
-		ft_printf("\n");
-		for (int h = 0; h < 2; h++)
-			ft_printf("apres le PA tabB[%d] = %d\n", h, tabB[h]);*/
-		push_b_vers_cible_a(tabA, tabB, countA);
-		pa(tabA, &countA, tabB, &countB);
-		ordonner_liste(tabA, countA);
-		/*for (int j = 0; j < countA; j++)
-		{
-			ft_printf("tabA[%d] = %d\n", j, tabA[j]);
-		}*/
-		return (free (tabB), 1);
-	}
-	else if (countA > 4)
-	{
-		
-		tri_big(tabA, countA, tabB, countB);
-		return (free(tabB), 1);
-	}
-	return (1);
-}
-
 int tri_big(long int *tabA, int countA, long int *tabB, int countB)
 {	
-	//int x;
+	int x;
+	int y;
 
 	pb(tabA, &countA, tabB, &countB);
-	//x = countA;
-	//while  (x > 3)
-	//{
-	find_and_push_b(tabA, countA, tabB, countB);
-	//	x--;
-	//}
+	x = countA;
+	y = countB;
+	while  (x > 3)
+	{
+		/*for (int o = 0; o < countA; o++)
+		{
+		printf("apres ordonner liste tabA[%d] = %ld\n", o, tabA[o]);
+		}*/
+		find_and_push_b(tabA, x, tabB, y);
+		x--;
+		y++;
+	}
+	/*for (int o = 0; o < countA; o++)
+		{
+		printf("apres ordonner liste tabA[%d] = %ld\n", o, tabA[o]);
+		}*/
+	tri_2_3(tabA, x);
+	while (y > 0)
+	{
+		push_b_vers_cible_a(tabA, tabB, x, y);
+		pa(tabA, x, tabB, y);
+		y--;
+		x++;
+	}
+	ordonner_liste(tabA, x);
+	/*for (int o = 0; o < x; o++)
+		{
+		printf("apres ordonner liste tabA[%d] = %ld\n", o, tabA[o]);
+		}*/
 	return (1);
 }
 int find_and_push_b(long int *tabA, int countA, long int *tabB, int countB)
 {
-    //int best_index;
-	
-	find_optimal_move(tabA, countA, tabB, countB);
-	//best_index = find_optimal_move(tabA, countA, tabB, countB);
-    //remonter_en_haut_de_tabA_la_cible_i(tabA, best_index, countA);
-    //pb(tabA, &countA, tabB, &countB);
+    int best_index_in_a;
+	int best_index_in_b;
+
+	best_index_in_a = find_optimal_move_return_best_index_in_a(tabA, countA, tabB, countB);
+    best_index_in_b = return_best_index_in_b(tabA, countA,tabB, countB, best_index_in_a);
+	remonter_en_haut_de_tabA_la_cible_i(tabA, best_index_in_a, countA);
+	remonter_en_haut_de_tabB_la_cible_i(tabB, best_index_in_b, countB);
+   	pb(tabA, &countA, tabB, &countB);
     return (1);
 }
 
-int find_optimal_move(long int *tabA, int countA, long int *tabB, int countB)
+int find_optimal_move_return_best_index_in_a(long int *tabA, int countA, long int *tabB, int countB)
 {
     int i;
 	int j;
 	int min_moves = INT_MAX;
-	int best_index = 0;
+	int best_index_in_a = 0;
 	int current_moves;
 	int count_moves_in_A;
 	int count_moves_in_B;
@@ -149,11 +127,10 @@ int find_optimal_move(long int *tabA, int countA, long int *tabB, int countB)
 	int closest_index;
 	
 	i = 0;
-
-    while (i < countA)
+	while (i < countA)
 	{
-		count_moves_in_A = calculate_moves(countA, i); // Mouvements pour placer tabA[i] en haut de tabA
-		printf("moves_in_A pour tabA[%d] = %d\n", i, count_moves_in_A);
+		count_moves_in_A = calculate_moves(countA, i);
+		//printf("moves_in_A pour tabA[%d] = %d\n", i, count_moves_in_A);
 		if (tabA[i] > max_b || tabA[i] < min_b)
 		{
 			max_index_in_b = find_max_index_in_b(tabB, countB);
@@ -171,61 +148,57 @@ int find_optimal_move(long int *tabA, int countA, long int *tabB, int countB)
 			}
 			count_moves_in_B = calculate_moves(countB, closest_index);
 		}
-		printf("moves_in_B pour tabA[%d] = %d\n", i, count_moves_in_B);
 		current_moves = count_moves_in_A + count_moves_in_B;
-		printf("current_moves pour tabA[%d] = %d\n", i, current_moves);
-		printf("\n");
 		if (current_moves < min_moves)
 		{
 			min_moves = current_moves;
-            best_index = i;
+            best_index_in_a = i;
 		}
 		if (min_moves == 0)
 			break;
 		i++;
 	}
-	printf("\n");
-	printf("min_moves = %d\n", min_moves);
-	printf("bon_index = %d\n", best_index);
-	return (best_index);
+	return (best_index_in_a);
+}
+int return_best_index_in_b(long int *tabA, int countA, long int *tabB, int countB, int i)
+{
+	int j;
+	int best_index_in_b;
+	int closest_index;
+	int max_b = find_max_in_b(tabB, countB);
+	int min_b = find_min_in_b(tabB, countB);
+	(void) countA;
+
+
+	best_index_in_b = 0;
+	closest_index = -1;
+	j = 0;
+
+	if (tabA[i] > max_b || tabA[i] < min_b)
+		best_index_in_b = find_max_index_in_b(tabB, countB);
+	else
+	{
+	while (j < countB)
+	{
+		if (tabB[j] < tabA[i] && (closest_index == -1 || tabB[j] > tabB[closest_index]))
+			closest_index = j;
+		j++;
+	}
+	best_index_in_b = closest_index;
+	}
+	return (best_index_in_b);
 }
 
-
-/*int find_a_to_push_to_b(long int *tabA, int countA, long int *tabB, int countB)
+int calculate_moves(int count, int index)
 {
-	int i = 0;
-	int j;
-	long int max_value_in_b;
-	//int count_move = 0;
-
-	max_value_in_b = find_max_in_b(tabB, countB);
-	while (i < countA)
-	{
-		j = countB - 1;
-		while (j >= 0)
-		{
-			if (tabA[i] > max_value_in_b)
-			{
-				for (int j = 0; j < countA; j++)
-					ft_printf("tabA[%d] = %d\n", j, tabA[j]);
-				ft_printf("\n");
-				for (int j = 0; j < countB; j++)
-					ft_printf("tabB[%d] = %d\n", j, tabB[j]);
-				remonter_en_haut_de_tabA_la_cible_i(tabA, i, countA);
-			}
-			j--;
-		}
-		i++;
-	}
-	return 1;
-}*/
+	if (index <= count / 2)
+        return index;
+    else
+        return count - index;
+}
 
 int find_max_in_b(long int *tabB,  int countB)
 {
-	for (int x = 0; x < countB; x++)
-	{
-		ft_printf("tabB[%d] = %d\n", x, tabB[x]);
-	}
 	int max_value;
 	int i;
 	max_value = tabB[0];
@@ -233,13 +206,9 @@ int find_max_in_b(long int *tabB,  int countB)
 	while (i < countB)
 	{
 		if (tabB[i] > max_value)
-		{
 			max_value = tabB[i];
-			//ft_printf("max_value = %d\n", max_value);
-		}
 		i++;
 	}
-	//ft_printf("apres la boucle max_value = %d\n", max_value);
 	return (max_value);
 }
 
@@ -277,6 +246,8 @@ int find_min_in_b(long int *tabB, int countB)
 	return (min_value_in_b);
 }
 
+
+
 int find_min_index_in_b(long int *tabB, int countB)
 {
 	int min_value;
@@ -295,13 +266,53 @@ int find_min_index_in_b(long int *tabB, int countB)
 	}
 	return (min_index_in_b);
 }
+int find_max_in_a(long int *tabA,  int countA)
+{
+	int max_value;
+	int i;
+	max_value = tabA[0];
+	i = 1;
+	while (i < countA)
+	{
+		if (tabA[i] > max_value)
+			max_value = tabA[i];
+		i++;
+	}
+	return (max_value);
+}
+int find_min_index_in_a(long int *tabA,  int countA)
+{
+	int min_value;
+	int i;
+	min_value = tabA[0];
+	int min_index_in_a;
+	min_index_in_a = 0;
+	i = 1;
+	while (i < countA)
+	{
+		if (tabA[i] < min_value)
+		{
+			min_value = tabA[i];
+			min_index_in_a = i;
+		}
+		i++;
+	}
+	return (min_index_in_a);
+}
 
 int	remonter_en_haut_de_tabA_la_cible_i(long int *tabA, long int i, int countA)
-{                                                                //on fait remonter la cible en haut de la stackAAAAAAAAAAAAAAAAAAAAAA      
+{   
+	/*printf("countA = %d\n", countA);
+	for (int w = 0; w < countA; w++)
+	{
+		printf("dans le remonter en haut tabA[%d] = %ld\n", w, tabA[w]);
+	} */  
+	//printf("i = %ld et countA = %d\n", i, countA);                                                          //on fait remonter la cible en haut de la stackAAAAAAAAAAAAAAAAAAAAAA      
 	if (i > countA / 2)
 	{
 		while (i < countA)
 		{
+			//printf("ici ????????");
 			rra(tabA, countA);
 			i++;
 		}
@@ -310,6 +321,7 @@ int	remonter_en_haut_de_tabA_la_cible_i(long int *tabA, long int i, int countA)
 	{
 		while (i > 0)
 		{
+			//printf("laaaaaaaaaaaaaa?");
 			ra(tabA, countA);
 			i--;
 		}
@@ -317,7 +329,9 @@ int	remonter_en_haut_de_tabA_la_cible_i(long int *tabA, long int i, int countA)
 	return (1);
 }
 int	remonter_en_haut_de_tabB_la_cible_i(long int *tabB, long int i, int countB)
-{                                                                //on fait remonter la cible en haut de la stackB                                                               // soit par ra soit par rra
+{    
+	
+                   //on fait remonter la cible en haut de la stackB                                                               // soit par ra soit par rra
 	if (i > countB / 2)
 	{
 		while (i < countB)
@@ -337,81 +351,89 @@ int	remonter_en_haut_de_tabB_la_cible_i(long int *tabB, long int i, int countB)
 	return (1);
 }
 
-int	push_b_vers_cible_a_reduite(long int *tabA, long int *tabB, int countA)             //b --> a
+int	push_b_vers_cible_a_reduite(long int *tabA, long int *tabB, int countA, int countB)
 {
 	int cible_trouvee;
 	int index_min;
 	int i;
+	int max_a;
+	max_a = find_max_in_a(tabA, countA);
+	long int closest_value;
+	int index_cible;
+	(void) countB;
 
+	closest_value = LONG_MAX;
 	cible_trouvee = 0;
 	index_min = 0;
-	i = 0;
-
-	/*for (int k = 0; k < countA; k++)
-		ft_printf("avant les conditions: tabA[%d] = %d\n", k, tabA[k]);
-	ft_printf("\n");
-	for (int h = 0; h < 2; h++)
-		ft_printf("avant les conditions: tabB[%d] = %d\n", h, tabB[h]);*/
-	while (i < countA)
-	{
-		if (tabB[0] + 1 == tabA[i])
+	if (tabB[0] > max_a)
 		{
-			/*for (int k = 0; k < countA; k++)
-				ft_printf("ICI push vers cible a reduite ; tabA[%d] = %d\n", k, tabA[k]);
-			for (int h = 0; h < 2; h++)
-				ft_printf("ICI tabB[%d] = %d\n", h, tabB[h]);*/
-			remonter_en_haut_de_tabA_la_cible_i(tabA, i, countA);
-			cible_trouvee = 1;
-			break;
+			cible_trouvee = 3;
 		}
-		if (tabA[i] < tabA[index_min])
-			index_min = i;
-		i++;
+	else 
+	{
+		i = 0;
+		while (i < countA)
+		{
+			if (tabA[i] > tabB[0] && tabA[i] < closest_value)
+			{
+				closest_value = tabA[i];
+				index_cible = i;
+				cible_trouvee = 1;
+			}
+			if (tabA[i] < tabA[index_min])
+			{
+					index_min = i;
+			}
+			i++;
+		}	
+		if (cible_trouvee == 1)
+		{
+			remonter_en_haut_de_tabA_la_cible_i(tabA, index_cible, countA);
+			return(1);
+		}
 	}
-	/*ft_printf("cible valeur : %d\n", cible_trouvee);*/
 	return (cible_trouvee);
 }
-int push_b_vers_cible_a(long int *tabA, long int *tabB, int countA)              //b -->a
-{                                                           //on fait remonter la cible de tabB[0] en haut de la stack A
-	int i;                                                  //puis on pa
+
+int push_b_vers_cible_a(long int *tabA, long int *tabB, int countA, int countB)  
+{                                                         
+	int i;                                                 
 	int cible_trouvee;
 	int index_min;
 	int j;
-	j = 2;
+	int k;
+	(void) index_min;
 
-	index_min = 0; // jusaque la c bon
-	cible_trouvee = push_b_vers_cible_a_reduite(tabA, tabB, countA);
+	index_min = 0;
+	cible_trouvee = push_b_vers_cible_a_reduite(tabA, tabB, countA, countB);
 	if (!cible_trouvee)          
+	{
+		j = 2;
+		while (j < countA)
 		{
-			/*ft_printf("cible trouvee dans la non reduite %d\n", cible_trouvee);
-			for (int k = 0; k < countA; k++)
-					ft_printf("dans condition 2 tabA[%d] = %d\n", k, tabA[k]);
-				ft_printf("\n");
-				for (int h = 0; h < 2; h++)
-					ft_printf("dans condition 2 tabB[%d] = %d\n", h, tabB[h]);
-				ft_printf("\n");*/
-			while (j < countA)
+			i = 0;
+			while (i < countB)
 			{
-				i = 0;
-				while (i < countA)
+				k = 0;
+				while (k < countA)
 				{
-					if (tabB[0] + j == tabA[i])            // si tabB[0] ne trouve pas le tabA[i] == tabB[0] +1 on cherche le tabA[i] == tabB[0] + 2
+					if (tabB[i] + j == tabA[k])            // si tabB[0] ne trouve pas le tabA[i] == tabB[0] +1 on cherche le tabA[i] == tabB[0] + 2
 					{
-						remonter_en_haut_de_tabA_la_cible_i(tabA, i, countA);
-						cible_trouvee = 1;
-						break;
+						remonter_en_haut_de_tabA_la_cible_i(tabA, k, countA);
+						return (1);
 					}
-					if (tabA[i] < tabA[index_min])
-						index_min = i;
-					i++;
+					k++;
 				}
-				if(cible_trouvee)
-					break;
-				j++;
+				i++;
 			}
-			if (!cible_trouvee)
-				remonter_en_haut_de_tabA_la_cible_i(tabA, index_min, countA);             // si tab[0] est plus grand que tous les elements de tabA, on le met sur la plus petite valeur
+			j++;
 		}
+		remonter_en_haut_de_tabA_la_cible_i(tabA, index_min, countA);
+	}
+	else if (cible_trouvee == 3)
+	{
+		remonter_en_haut_de_tabA_la_cible_i(tabA, find_min_index_in_a(tabA, countA), countA);
+	}
 	return (1);
 }
 
@@ -477,15 +499,6 @@ int push_a_vers_cible_b(long int *tabA, long int *tabB, int countB)             
 	return (1);
 }
 
-
-int calculate_moves(int count, int index)
-{
-	//ft_printf("index dans calculate_move = %d et count = %d\n", index, count);
-	if (index <= count / 2)
-        return index;
-    else
-        return count - index;
-}
 
 
 
@@ -743,3 +756,68 @@ int tri_4_5(long int *tabA, int countA)
 	return (1);
 }*/
 
+/*int	push_b_vers_cible_a_reduite(long int *tabA, long int *tabB, int countA)             //b --> a
+{
+	int cible_trouvee;
+	int index_min;
+	int i;
+
+	cible_trouvee = 0;
+	index_min = 0;
+	i = 0;
+
+	while (i < countA)
+	{
+		if (tabB[i] + 1 == tabA[i])
+		{
+			for (int o = 0; o < countA; o++)
+			{
+			printf("ici ordonner liste tabA[%d] = %ld\n", o, tabA[o]);
+			}
+			remonter_en_haut_de_tabA_la_cible_i(tabA, i, countA);
+				cible_trouvee = 1;
+				break;
+		}
+		if (tabB[i] < tabB[index_min])
+			index_min = i;
+		i++;
+	}*/
+	/*ft_printf("cible valeur : %d\n", cible_trouvee);
+	return (cible_trouvee);
+}
+int push_b_vers_cible_a(long int *tabA, long int *tabB, int countA)              //b -->a
+{                                                           //on fait remonter la cible de tabB[0] en haut de la stack A
+	int i;                                                  //puis on pa
+	int cible_trouvee;
+	int index_min;
+	int j;
+	j = 2;
+
+	index_min = 0;
+	cible_trouvee = push_b_vers_cible_a_reduite(tabA, tabB, countA);
+	if (!cible_trouvee)          
+		{
+			while (j < countA)
+			{
+				i = 0;
+				while (i < countA)
+				{
+					if (tabB[i] + j == tabA[i])            // si tabB[0] ne trouve pas le tabA[i] == tabB[0] +1 on cherche le tabA[i] == tabB[0] + 2
+					{
+						remonter_en_haut_de_tabA_la_cible_i(tabA, i, countA);
+						cible_trouvee = 1;
+						break;
+					}
+					if (tabA[i] < tabA[index_min])
+						index_min = i;
+					i++;
+				}
+				if(cible_trouvee)
+					break;
+				j++;
+			}
+			if (!cible_trouvee)
+				remonter_en_haut_de_tabA_la_cible_i(tabA, index_min, countA);             // si tab[0] est plus grand que tous les elements de tabA, on le met sur la plus petite valeur
+		}
+	return (1);
+}*/

@@ -115,11 +115,28 @@ int push_cible_A(long int *tabA, long int *tabB, int countA)
 void ordonner_liste(long int *tabA, int countA)
 {                                                        //une fois la stack A triee, on fait ra ou rra pour avoir le 0 en haut
 	int i;
-	
+
 	i = 0;
-	while (tabA[i] != 0)
+	while (i < countA && tabA[i] != 0)
+	{
 		i++;
-	remonter_en_haut_de_tabA_la_cible_i(tabA, i, countA);
+	}
+	if (i == countA)
+		return;
+	if (i < countA / 2)
+	{
+		while (i > 0)
+		{
+			ra(tabA, countA);
+			i--;
+		}
+	}
+	else
+		while(i < countA)
+		{
+			rra(tabA, countA);
+			i++;
+		}
 }
 
 int list_sorted_tab(long int *tabA, int countA, int countB)
@@ -146,5 +163,50 @@ int main(int argc, char **argv)
     {
         if (check_arg(argc, argv) == -1)
             ft_printf("ERROR\n");
+		
+		/*long int tab[5];
+		tab[0] = 0;
+		tab[1] = 1;
+		tab[2] = 2;
+		tab[3] = 3;
+		tab[4] = 4;
+
+		rra(tab, 5);
+		for (int i = 0; i < 5; i++)
+		{
+			printf("tab[%d] = %ld\n", i, tab[i]);
+		}*/
     }
 }
+
+/*void rra(long int *tabA, int countA)
+{
+	int i;
+	int last_element;
+
+	i = countA -1;
+	last_element = tabA[countA -1];
+	while (i > 0)
+	{
+		tabA[i] = tabA[i - 1];
+		i--;
+	}
+	tabA[0] = last_element;
+	ft_printf("rra\n");
+}
+
+void rrb(long int *tabB, int countB)
+{
+	int i;
+	int last_element;
+
+	i = countB - 1;
+	last_element = tabB[countB -1];
+	while (i > 0)
+	{
+		tabB[i] = tabB[i -1];
+		i--;
+	}
+	tabB[0] = last_element;
+	ft_printf("rrb\n");
+}*/

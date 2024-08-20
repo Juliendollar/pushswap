@@ -67,7 +67,7 @@ void pb(long int *tabA, int *countA, long int *tabB, int *countB)
 	ft_printf("pb\n");
 }
 
-void pa(long int *tabA, int *countA, long int *tabB, int *countB)
+/*void pa(long int *tabA, int *countA, long int *tabB, int *countB)
 {
 	int i;
 	int j;
@@ -87,5 +87,26 @@ void pa(long int *tabA, int *countA, long int *tabB, int *countB)
 	}
 	(*countA)++;
 	(*countB)--;
+	ft_printf("pa\n");
+}*/
+
+void pa(long int *tabA, int countA, long int *tabB, int countB)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = countA;
+	while (j)
+	{
+		tabA[j] = tabA[j - 1];
+		j--;
+	}
+	tabA[0] = tabB[0];
+	while (i < countB - 1)
+	{
+		tabB[i] = tabB[i +1];
+		i++;
+	}
 	ft_printf("pa\n");
 }

@@ -18,7 +18,7 @@ void rra(long int *tabA, int countA)
 	int last_element;
 
 	i = countA -1;
-	last_element = tabA[countA - 1];
+	last_element = tabA[countA -1];
 	while (i > 0)
 	{
 		tabA[i] = tabA[i - 1];
@@ -34,14 +34,14 @@ void rrb(long int *tabB, int countB)
 	int last_element;
 
 	i = countB - 1;
-	last_element = tabB[countB - 1];
+	last_element = tabB[countB -1];
 	while (i > 0)
 	{
 		tabB[i] = tabB[i -1];
 		i--;
 	}
 	tabB[0] = last_element;
-	ft_printf("rrb");
+	ft_printf("rrb\n");
 }
 
 void rrr(long int *tabA, int countA, long int *tabB, int countB)
