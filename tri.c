@@ -147,7 +147,7 @@ int find_optimal_move(long int *tabA, int countA, long int *tabB, int countB)
 	int min_b = find_min_in_b(tabB, countB);
 	int max_index_in_b;
 	int closest_index;
-
+	
 	i = 0;
 
     while (i < countA)
