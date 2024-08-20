@@ -41,9 +41,8 @@ long int check_arg(int argc, char **argv)
 	return (1);
 }
 
-int	median(long int *tabA, long int i, int countA)
-{                                                                //on fait remonter la cible en haut de la stackA
-	(void)tabA;                                                  // soit par ra soit par rra
+/*int	remonter_en_haut_de_tabA_le_i(long int *tabA, long int i, int countA)
+{                                                                //on fait remonter la cible en haut de la stackA                                                               // soit par ra soit par rra
 	if (i > countA / 2)
 	{
 		while (i < countA)
@@ -62,21 +61,20 @@ int	median(long int *tabA, long int i, int countA)
 	}
 	return (1);
 }
-
-int push_cible_A(long int *tabA, long int *tabB, int countA)
-{                                                           //on fait remonter la cible de tabB[0] en haut de la stack A
-	int i;                                                  //puis on pa
+int	push_cible_a_reduite(long int *tabA, long int *tabB, int countA)
+{
 	int cible_trouvee;
 	int index_min;
-	
-	i = 0;
+	int i;
+
 	cible_trouvee = 0;
 	index_min = 0;
+	i = 0;
 	while (i < countA)
 	{
 		if (tabB[0] + 1 == tabA[i])
 		{
-			median(tabA, i, countA);
+			remonter_en_haut_de_tabA_le_i(tabA, i, countA);
 			cible_trouvee = 1;
 			break;
 		}
@@ -84,24 +82,35 @@ int push_cible_A(long int *tabA, long int *tabB, int countA)
 			index_min = i;
 		i++;
 	}
-	i = 0;
+	return (cible_trouvee);
+}
+int push_cible_A(long int *tabA, long int *tabB, int countA)
+{                                                           //on fait remonter la cible de tabB[0] en haut de la stack A
+	int i;                                                  //puis on pa
+	int cible_trouvee;
+	int index_min;
+
+	index_min = 0;
+	cible_trouvee = push_cible_a_reduite(tabA, tabB, countA);
 	if (!cible_trouvee)          
 		{
 			while (i < countA)
 			{
 				if (tabB[0] + 2 == tabA[i])            // si tabB[0] ne trouve pas le tabA[i] == tabB[0] +1 on cherche le tabA[i] == tabB[0] + 2
 				{
-					median(tabA, i, countA);
+					remonter_en_haut_de_tabA_le_i(tabA, i, countA);
 					cible_trouvee = 1;
 					break;
 				}
+				if (tabA[i] < tabA[index_min])
+					index_min = i;
 				i++;
 			}
 			if (!cible_trouvee)
-				median(tabA, index_min, countA);             // si tab[0] est plus grand que tous les elements de tabA, on le met sur la plus petite valeur
+				remonter_en_haut_de_tabA_le_i(tabA, index_min, countA);             // si tab[0] est plus grand que tous les elements de tabA, on le met sur la plus petite valeur
 		}
 	return (1);
-}
+}*/
 
 void ordonner_liste(long int *tabA, int countA)
 {                                                        //une fois la stack A triee, on fait ra ou rra pour avoir le 0 en haut
@@ -110,7 +119,7 @@ void ordonner_liste(long int *tabA, int countA)
 	i = 0;
 	while (tabA[i] != 0)
 		i++;
-	median(tabA, i, countA);
+	remonter_en_haut_de_tabA_la_cible_i(tabA, i, countA);
 }
 
 int list_sorted_tab(long int *tabA, int countA, int countB)
@@ -138,5 +147,4 @@ int main(int argc, char **argv)
         if (check_arg(argc, argv) == -1)
             ft_printf("ERROR\n");
     }
-	ft_printf("t");
 }

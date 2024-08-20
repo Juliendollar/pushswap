@@ -55,7 +55,35 @@ int list_sorted_tab(long int *tabA, int countA, int countB);
 void sort_tab(long int *tab_temp, int countA);
 
 int push_cible_A(long int *tabA, long int *tabB, int countA);
+int	push_cible_a_reduite(long int *tabA, long int *tabB, int countA);
 int median(long int *tabA, long int i, int countA);
 
 void ordonner_liste(long int *tabA, int countA);
+
+int tri_big(long int *tabA, int countA, long int *tabB, int countB);
+int find_and_push_b(long int *tabA, int countA, long int *tabB, int countB);
+int calculate_cost_b(int target_position, int countB);
+int calculate_cost_a(int i, int countA);
+int find_target_position(long int value, long int *tabB, int countB);
+int find_max_in_b(long int *tabB,  int countB);
+
+int push_a_vers_cible_b(long int *tabA, long int *tabB, int countB);
+int	push_a_vers_cible_b_reduite(long int *tabB, long int *tabA, int countB);
+int push_b_vers_cible_a(long int *tabA, long int *tabB, int countA);
+int	push_b_vers_cible_a_reduite(long int *tabA, long int *tabB, int countA);
+int	remonter_en_haut_de_tabB_la_cible_i(long int *tabB, long int i, int countB);
+int	remonter_en_haut_de_tabA_la_cible_i(long int *tabA, long int i, int countA);
+
+int calculate_moves(int count, int index);
+int find_optimal_move(long int *tabA, int countA, long int *tabB, int countB);
+int find_and_push_b(long int *tabA, int countA, long int *tabB, int countB);
+int find_a_to_push_to_b(long int *tabA, int countA, long int *tabB, int countB);
+
+int find_min_in_b(long int *tabB, int countB);
+int find_min_index_in_b(long int *tabB, int countB);
+
+int find_max_in_b(long int *tabB, int countB);
+int find_max_index_in_b(long int *tabB, int countB);
+
+
 #endif

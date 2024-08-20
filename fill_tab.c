@@ -39,7 +39,7 @@ long int *allocate_and_fill_tab(char **argv, int argc, long int *countA, char **
 	return (tabA);
 }
 
-void free_tab(char **tab)  
+void free_tab(char **tab)
 {
 	int i;
 	i = 0;
