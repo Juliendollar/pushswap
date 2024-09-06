@@ -41,76 +41,7 @@ long int check_arg(int argc, char **argv)
 	return (1);
 }
 
-/*int	remonter_en_haut_de_tabA_le_i(long int *tabA, long int i, int countA)
-{                                                                //on fait remonter la cible en haut de la stackA                                                               // soit par ra soit par rra
-	if (i > countA / 2)
-	{
-		while (i < countA)
-		{
-			rra(tabA, countA);
-			i++;
-		}
-	}
-	else
-	{
-		while (i > 0)
-		{
-			ra(tabA, countA);
-			i--;
-		}
-	}
-	return (1);
-}
-int	push_cible_a_reduite(long int *tabA, long int *tabB, int countA)
-{
-	int cible_trouvee;
-	int index_min;
-	int i;
 
-	cible_trouvee = 0;
-	index_min = 0;
-	i = 0;
-	while (i < countA)
-	{
-		if (tabB[0] + 1 == tabA[i])
-		{
-			remonter_en_haut_de_tabA_le_i(tabA, i, countA);
-			cible_trouvee = 1;
-			break;
-		}
-		if (tabA[i] < tabA[index_min])
-			index_min = i;
-		i++;
-	}
-	return (cible_trouvee);
-}
-int push_cible_A(long int *tabA, long int *tabB, int countA)
-{                                                           //on fait remonter la cible de tabB[0] en haut de la stack A
-	int i;                                                  //puis on pa
-	int cible_trouvee;
-	int index_min;
-
-	index_min = 0;
-	cible_trouvee = push_cible_a_reduite(tabA, tabB, countA);
-	if (!cible_trouvee)          
-		{
-			while (i < countA)
-			{
-				if (tabB[0] + 2 == tabA[i])            // si tabB[0] ne trouve pas le tabA[i] == tabB[0] +1 on cherche le tabA[i] == tabB[0] + 2
-				{
-					remonter_en_haut_de_tabA_le_i(tabA, i, countA);
-					cible_trouvee = 1;
-					break;
-				}
-				if (tabA[i] < tabA[index_min])
-					index_min = i;
-				i++;
-			}
-			if (!cible_trouvee)
-				remonter_en_haut_de_tabA_le_i(tabA, index_min, countA);             // si tab[0] est plus grand que tous les elements de tabA, on le met sur la plus petite valeur
-		}
-	return (1);
-}*/
 
 void ordonner_liste(long int *tabA, int countA)
 {                                                        //une fois la stack A triee, on fait ra ou rra pour avoir le 0 en haut
@@ -118,9 +49,7 @@ void ordonner_liste(long int *tabA, int countA)
 
 	i = 0;
 	while (i < countA && tabA[i] != 0)
-	{
 		i++;
-	}
 	if (i == countA)
 		return;
 	if (i < countA / 2)
@@ -163,19 +92,6 @@ int main(int argc, char **argv)
     {
         if (check_arg(argc, argv) == -1)
             ft_printf("ERROR\n");
-		
-		/*long int tab[5];
-		tab[0] = 0;
-		tab[1] = 1;
-		tab[2] = 2;
-		tab[3] = 3;
-		tab[4] = 4;
-
-		rra(tab, 5);
-		for (int i = 0; i < 5; i++)
-		{
-			printf("tab[%d] = %ld\n", i, tab[i]);
-		}*/
     }
 }
 

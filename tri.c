@@ -12,10 +12,10 @@
 
 #include "push_swap.h"
 
-int tri(long int *tabA, int countA)
+int	tri(long int *tabA, int countA)
 {
-	long int *tabB;
-	int countB;
+	long int	*tabB;
+	int			countB;
 
 	if (countA == 2 || countA == 3)
 		tri_2_3(tabA, countA);
@@ -72,18 +72,10 @@ int tri_big(long int *tabA, int countA, long int *tabB, int countB)
 	y = countB;
 	while  (x > 3)
 	{
-		/*for (int o = 0; o < countA; o++)
-		{
-		printf("apres ordonner liste tabA[%d] = %ld\n", o, tabA[o]);
-		}*/
 		find_and_push_b(tabA, x, tabB, y);
 		x--;
 		y++;
 	}
-	/*for (int o = 0; o < countA; o++)
-		{
-		printf("apres ordonner liste tabA[%d] = %ld\n", o, tabA[o]);
-		}*/
 	tri_2_3(tabA, x);
 	while (y > 0)
 	{
@@ -93,10 +85,6 @@ int tri_big(long int *tabA, int countA, long int *tabB, int countB)
 		x++;
 	}
 	ordonner_liste(tabA, x);
-	/*for (int o = 0; o < x; o++)
-		{
-		printf("apres ordonner liste tabA[%d] = %ld\n", o, tabA[o]);
-		}*/
 	return (1);
 }
 int find_and_push_b(long int *tabA, int countA, long int *tabB, int countB)
@@ -130,7 +118,6 @@ int find_optimal_move_return_best_index_in_a(long int *tabA, int countA, long in
 	while (i < countA)
 	{
 		count_moves_in_A = calculate_moves(countA, i);
-		//printf("moves_in_A pour tabA[%d] = %d\n", i, count_moves_in_A);
 		if (tabA[i] > max_b || tabA[i] < min_b)
 		{
 			max_index_in_b = find_max_index_in_b(tabB, countB);
@@ -301,18 +288,11 @@ int find_min_index_in_a(long int *tabA,  int countA)
 }
 
 int	remonter_en_haut_de_tabA_la_cible_i(long int *tabA, long int i, int countA)
-{   
-	/*printf("countA = %d\n", countA);
-	for (int w = 0; w < countA; w++)
-	{
-		printf("dans le remonter en haut tabA[%d] = %ld\n", w, tabA[w]);
-	} */  
-	//printf("i = %ld et countA = %d\n", i, countA);                                                          //on fait remonter la cible en haut de la stackAAAAAAAAAAAAAAAAAAAAAA      
+{                                                         //on fait remonter la cible en haut de la stackAAAAAAAAAAAAAAAAAAAAAA      
 	if (i > countA / 2)
 	{
 		while (i < countA)
 		{
-			//printf("ici ????????");
 			rra(tabA, countA);
 			i++;
 		}
@@ -321,7 +301,6 @@ int	remonter_en_haut_de_tabA_la_cible_i(long int *tabA, long int i, int countA)
 	{
 		while (i > 0)
 		{
-			//printf("laaaaaaaaaaaaaa?");
 			ra(tabA, countA);
 			i--;
 		}
@@ -331,7 +310,6 @@ int	remonter_en_haut_de_tabA_la_cible_i(long int *tabA, long int i, int countA)
 int	remonter_en_haut_de_tabB_la_cible_i(long int *tabB, long int i, int countB)
 {    
 	
-                   //on fait remonter la cible en haut de la stackB                                                               // soit par ra soit par rra
 	if (i > countB / 2)
 	{
 		while (i < countB)
