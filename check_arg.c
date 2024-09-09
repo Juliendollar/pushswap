@@ -74,12 +74,12 @@ long int	check_dup_limit_simplify_num(long int *tabA, long int countA)
 void	simplify_numbers(int long *tabA, int countA)
 {
 	long int	*tab_temp;
-	int	i;
-	int	j;
+	int			i;
+	int			j;
 
 	tab_temp = malloc (sizeof(long int) * countA);
-	if(!tab_temp)
-		return;
+	if (!tab_temp)
+		return ;
 	i = -1;
 	while (++i < countA)
 		tab_temp[i] = tabA[i];
@@ -93,7 +93,7 @@ void	simplify_numbers(int long *tabA, int countA)
 			if (tabA[i] == tab_temp[j])
 			{
 				tabA[i] = j;
-				break;
+				break ;
 			}
 		}
 	}
@@ -102,9 +102,9 @@ void	simplify_numbers(int long *tabA, int countA)
 
 void	sort_tab(long int *tab_temp, int countA)
 {
-	int	i;
-	int	j;
 	long int	temp;
+	int			i;
+	int			j;
 
 	i = 0;
 	while (i < countA -1)

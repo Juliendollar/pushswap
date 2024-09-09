@@ -12,10 +12,10 @@
 
 #include "push_swap.h"
 
-void ra(long int *tabA, int countA)
+void	ra(long int *tabA, int countA)
 {
-	int i;
-	int first_element;
+	int	i;
+	int	first_element;
 
 	first_element = tabA[0];
 	i = 0;
@@ -28,10 +28,10 @@ void ra(long int *tabA, int countA)
 	ft_printf("ra\n");
 }
 
-void rb(long int *tabB, int countB)
+void	rb(long int *tabB, int countB)
 {
-	int i;
-	int first_element;
+	int	i;
+	int	first_element;
 
 	first_element = tabB[0];
 	i = 0;
@@ -44,28 +44,28 @@ void rb(long int *tabB, int countB)
 	ft_printf("rb\n");
 }
 
-void rr(long int *tabA, int countA, long int *tabB, int countB)
+void	rr(long int *tabA, int countA, long int *tabB, int countB)
 {
-	int i;
-	int first_elementA;
-	int j;
-	int first_elementB;
+	int	i;
+	int	first_element_a;
+	int	j;
+	int	first_element_b;
 
-	first_elementA = tabA[0];
+	first_element_a = tabA[0];
 	i = 0;
 	while (i < countA -1)
 	{
 		tabA[i] = tabA[i + 1];
 		i++;
 	}
-	tabA[countA - 1] = first_elementA;
-	first_elementB = tabB[0];
+	tabA[countA - 1] = first_element_a;
+	first_element_b = tabB[0];
 	j = 0;
 	while (j < countB -1)
 	{
 		tabB[j] = tabB[j +1];
 		j++;
 	}
-	tabB[countB - 1] = first_elementB;
+	tabB[countB - 1] = first_element_b;
 	ft_printf("rr");
 }

@@ -12,54 +12,56 @@
 
 #include "push_swap.h"
 
-void sa(long int *tabA)
+void	sa(long int *tab_a)
 {
-	int temp;
+	int	temp;
 
-	temp = tabA[0];
-	tabA[0] = tabA[1];
-	tabA[1] = temp;
+	temp = tab_a[0];
+	tab_a[0] = tab_a[1];
+	tab_a[1] = temp;
 	ft_printf("sa\n");
 }
-void sb(long int *tabB)
-{
-	int temp;
 
-	temp = tabB[0];
-	tabB[0] = tabB[1];
-	tabB[1] = temp;
+void	sb(long int *tab_b)
+{
+	int	temp;
+
+	temp = tab_b[0];
+	tab_b[0] = tab_b[1];
+	tab_b[1] = temp;
 	ft_printf("sb\n");
 }
-void ss(long int *tabA, long int *tabB)
-{
-	int tempA;
-	int tempB;
 
-	tempA = tabA[0];
-	tabA[0] = tabA[1];
-	tabA[1] = tempA;
-	tempB = tabB[0];
-	tabB[0] = tabB[1];
-	tabB[1] = tempB;
+void	ss(long int *tab_a, long int *tab_b)
+{
+	int	temp_a;
+	int	temp_b;
+
+	temp_a = tab_a[0];
+	tab_a[0] = tab_a[1];
+	tab_a[1] = temp_a;
+	temp_b = tab_b[0];
+	tab_b[0] = tab_b[1];
+	tab_b[1] = temp_b;
 	ft_printf("ss\n");
 }
 
-void pb(long int *tabA, int *countA, long int *tabB, int *countB)
+void	pb(long int *tab_a, int *countA, long int *tab_b, int *countB)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = *countB;
 	while (j)
 	{
-		tabB[j] = tabB[j - 1];	
+		tab_b[j] = tab_b[j - 1];
 		j--;
 	}
-	tabB[0] = tabA[0];
+	tab_b[0] = tab_a[0];
 	while (i < *countA -1)
 	{
-		tabA[i] = tabA[i + 1];
+		tab_a[i] = tab_a[i + 1];
 		i++;
 	}
 	(*countA)--;
@@ -67,45 +69,22 @@ void pb(long int *tabA, int *countA, long int *tabB, int *countB)
 	ft_printf("pb\n");
 }
 
-/*void pa(long int *tabA, int *countA, long int *tabB, int *countB)
+void	pa(long int *tab_a, int countA, long int *tab_b, int countB)
 {
-	int i;
-	int j;
-
-	i = 0;
-	j = *countA;
-	while (j)
-	{
-		tabA[j] = tabA[j - 1];
-		j--;
-	}
-	tabA[0] = tabB[0];
-	while (i < *countB - 1)
-	{
-		tabB[i] = tabB[i +1];
-		i++;
-	}
-	(*countA)++;
-	(*countB)--;
-	ft_printf("pa\n");
-}*/
-
-void pa(long int *tabA, int countA, long int *tabB, int countB)
-{
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = countA;
 	while (j)
 	{
-		tabA[j] = tabA[j - 1];
+		tab_a[j] = tab_a[j - 1];
 		j--;
 	}
-	tabA[0] = tabB[0];
+	tab_a[0] = tab_b[0];
 	while (i < countB - 1)
 	{
-		tabB[i] = tabB[i +1];
+		tab_b[i] = tab_b[i +1];
 		i++;
 	}
 	ft_printf("pa\n");
